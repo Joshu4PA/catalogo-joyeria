@@ -1,160 +1,107 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Joyería de Tradición - Catálogo</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Catálogo Joyería</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root{
-  --bg:#14241b;
-  --bg-deep:#1c3226;
-  --muted:#b3c4b8;
-  --accent:#c9ad73;
-  --text:#eef5f0;
-  --green:#7fbf9a;
-  --red:#c98a8a;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:Inter;
-  background:linear-gradient(180deg,var(--bg),var(--bg-deep));
-  color:var(--text);
+  font-family: Arial, sans-serif;
+  background:#f5f5f5;
 }
-
 header{
+  background:#fff;
+  padding:30px 20px;
   text-align:center;
-  padding:26px 20px;
-  border-bottom:1px solid rgba(201,173,115,.14);
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
-
-.brand-logo{
-  width:140px;
-  height:140px;
-  object-fit:contain;
+header img{
+  max-width:140px;
 }
-
-h1{
-  font-family:'Playfair Display';
-  margin:10px 0 6px;
+header h1{
+  margin:15px 0 0;
+  font-weight:500;
 }
-
-.lead{
-  letter-spacing:3px;
-  font-size:12px;
-  color:var(--muted);
-}
-
-.grid{
-  padding:24px;
+.catalogo{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:22px;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:30px;
 }
-
 .card{
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
-  border:1px solid rgba(201,173,115,.16);
-  border-radius:18px;
-  padding:18px;
-  text-align:center;
-  position:relative;
-}
-
-.badge{
-  position:absolute;
-  top:12px;
-  left:12px;
-  font-size:12px;
-  padding:6px 10px;
-  border-radius:10px;
-  border:1px solid rgba(201,173,115,.35);
-  background:rgba(15,26,20,.8);
-}
-
-.ring-thumb img{
-  width:100%;
-  height:170px;
-  object-fit:cover;
-  border-radius:14px;
-}
-
-.name{
-  margin-top:12px;
-  font-family:'Playfair Display';
-  color:var(--accent);
-  font-size:18px;
-}
-
-.tags{
-  margin-top:10px;
-  display:flex;
-  gap:8px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-.tag{
-  font-size:11px;
-  padding:6px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.05);
-  color:var(--muted);
-}
-
-.tag.stock-ok{color:var(--green);border:1px solid rgba(127,191,154,.4)}
-.tag.stock-no{color:var(--red);border:1px solid rgba(201,138,138,.4)}
-
-.btn{
-  margin-top:16px;
-  padding:12px 16px;
+  background:#fff;
   border-radius:12px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  background:linear-gradient(90deg,#c2a565,#e6d0a2);
-  color:#1a1a1a;
+  padding:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+.card img{
   width:100%;
+  border-radius:10px;
+}
+.card h3{
+  margin:10px 0 5px;
+}
+.card p{
+  margin:4px 0;
+  font-size:14px;
+}
+.card button{
+  margin-top:10px;
+  width:100%;
+  padding:10px;
+  background:#000;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.card button:hover{
+  opacity:.85;
 }
 
+/* MODAL */
 .modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
   display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,.6);
   align-items:center;
   justify-content:center;
+}
+.modal-content{
+  background:#fff;
   padding:20px;
-  z-index:50;
+  width:90%;
+  max-width:400px;
+  border-radius:10px;
 }
-
-.modal.show{display:flex}
-
-.modal-card{
-  max-width:420px;
+.modal-content h2{
+  margin-top:0;
+}
+.modal-content input,
+.modal-content textarea{
   width:100%;
-  background:#15261d;
-  border-radius:20px;
-  padding:22px;
-  text-align:center;
-  border:1px solid rgba(201,173,115,.28);
+  padding:8px;
+  margin-bottom:10px;
 }
-
-.modal-card img{
+.modal-content button{
   width:100%;
-  border-radius:16px;
+  padding:10px;
+  background:#000;
+  color:#fff;
+  border:none;
+}
+.cerrar{
+  background:#ccc;
+  margin-top:5px;
 }
 
-.modal-name{
-  font-family:'Playfair Display';
-  color:var(--accent);
-  font-size:22px;
-  margin:14px 0 6px;
+/* iframe oculto */
+iframe{
+  display:none;
 }
 </style>
 </head>
@@ -162,95 +109,87 @@ h1{
 <body>
 
 <header>
-  <img src="logo.png" class="brand-logo">
-  <h1>Joyería de Tradición</h1>
-  <p class="lead">CATÁLOGO — ANILLOS DE ORO</p>
+  <img src="logo.jpg" alt="Logo">
+  <h1>Catálogo de Anillos</h1>
 </header>
 
-<section class="grid" id="catalog"></section>
+<section class="catalogo" id="catalogo"></section>
 
+<!-- MODAL -->
 <div class="modal" id="modal">
-  <div class="modal-card">
-    <img id="mImg">
-    <div class="modal-name" id="mName"></div>
-    <p id="mStatus" style="color:var(--muted)"></p>
-    <div id="mBtns"></div><br>
-    <button class="btn" onclick="modal.classList.remove('show')" style="background:none;color:var(--text)">Cerrar</button>
+  <div class="modal-content">
+    <h2>Consulta / Pedido</h2>
+
+    <form 
+      action="https://script.google.com/macros/s/AKfycbxWpt55ipwqjFCIsWcMu_g8ZjkJkWoNYt7XV2EHvg_gW1tpOhUhwfEu-4Ys-IvbZCls/exec"
+      method="POST"
+      target="hidden_iframe"
+      onsubmit="enviado()">
+
+      <input type="hidden" name="modelo" id="f_modelo">
+      <input type="hidden" name="material" id="f_material">
+
+      <input type="text" name="cliente" placeholder="Nombre" required>
+      <input type="text" name="whatsapp" placeholder="WhatsApp" required>
+      <input type="text" name="talla" placeholder="Talla solicitada" required>
+
+      <textarea name="mensaje" placeholder="Mensaje adicional"></textarea>
+
+      <button type="submit">Enviar consulta</button>
+      <button type="button" class="cerrar" onclick="cerrar()">Cancelar</button>
+    </form>
   </div>
 </div>
 
-<script>
-const API="https://script.google.com/macros/s/AKfycbxPG1dKYvUKbcsOb-XJZya3nZD0wmbePPPQNRwx8JWXKbEiO_IQtQHWJq85E-AQNJXq/exec";
+<iframe name="hidden_iframe"></iframe>
 
-const rings=[
- {name:"Éclat",img:"1.jpg",tags:["Clásico","Pulido"]},
- {name:"Aurora",img:"2.jpg",tags:["Media caña","Bisel"]},
- {name:"Linea",img:"3.jpg",tags:["Minimal","Texturado"]},
- {name:"Halo",img:"4.jpg",tags:["Engaste","Decorativo"]},
- {name:"Bruma",img:"5.jpg",tags:["Mate","Plano"]},
- {name:"Solace",img:"6.jpg",tags:["Pulido","Elegante"]},
- {name:"Aura",img:"7.jpg",tags:["Geométrico","Moderno"]},
- {name:"Imperial",img:"8.jpg",tags:["Pulido","Bordes dobles"]}
+<script>
+const productos = [
+  {
+    nombre:"Anillo Modelo 1",
+    material:"Oro 18K",
+    img:"1.jpg"
+  },
+  {
+    nombre:"Anillo Modelo 2",
+    material:"Plata 950",
+    img:"2.jpg"
+  },
+  {
+    nombre:"Anillo Modelo 3",
+    material:"Oro 18K con piedra",
+    img:"3.jpg"
+  }
 ];
 
-fetch(API)
-.then(r=>r.json())
-.then(stock=>{
- const grid=document.getElementById("catalog");
+const cont = document.getElementById("catalogo");
 
- rings.forEach(r=>{
-  const ok = stock[r.name]==1;
-
-  grid.innerHTML+=`
-  <div class="card">
-    <div class="badge">18K</div>
-    <div class="ring-thumb"><img src="${r.img}"></div>
-    <div class="name">${r.name}</div>
-    <div class="tags">
-      ${r.tags.map(t=>`<div class="tag">${t}</div>`).join("")}
-      <div class="tag ${ok?'stock-ok':'stock-no'}">
-        ${ok?'STOCK LIVE':'SIN STOCK LIVE'}
-      </div>
+productos.forEach(p=>{
+  cont.innerHTML += `
+    <div class="card">
+      <img src="${p.img}">
+      <h3>${p.nombre}</h3>
+      <p>${p.material}</p>
+      <button onclick="abrir('${p.nombre}','${p.material}')">
+        Fabricar / Consultar talla
+      </button>
     </div>
-    <button class="btn" onclick="openModal('${r.name}',${ok})">CONSULTAR</button>
-  </div>`;
- });
+  `;
 });
 
-function openModal(name,hasStock){
- modal.classList.add("show");
- const ring=rings.find(r=>r.name===name);
-
- mImg.src=ring.img;
- mName.textContent=name;
- mStatus.textContent="Fabricamos todas las tallas. Puedes pedir stock o mandar a fabricar.";
-
- mBtns.innerHTML=`
-  ${hasStock ? `<button class="btn" onclick="pedido('${name}','STOCK')">PEDIR STOCK</button><br><br>` : ``}
-  <button class="btn" onclick="pedido('${name}','MEDIDA')">PEDIR A FABRICAR</button>
- `;
+function abrir(modelo,material){
+  document.getElementById("f_modelo").value = modelo;
+  document.getElementById("f_material").value = material;
+  document.getElementById("modal").style.display="flex";
 }
-
-function pedido(modelo,tipo){
- fetch(API,{
-  method:"POST",
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({
-    modelo,
-    tipo,
-    estado: tipo==="STOCK" ? "SEPARADO" : "A FABRICAR",
-    origen:"CATÁLOGO LIVE"
-  })
- });
-
- const msg = tipo==="STOCK"
-  ? `Hola, quiero separar el anillo ${modelo} que vi en el live.`
-  : `Hola, quiero el anillo ${modelo} a fabricar en mi talla.`;
-
- window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+function cerrar(){
+  document.getElementById("modal").style.display="none";
+}
+function enviado(){
+  alert("Consulta enviada correctamente");
+  cerrar();
 }
 </script>
 
 </body>
 </html>
-
