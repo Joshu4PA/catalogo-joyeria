@@ -180,10 +180,8 @@ h1{
 </div>
 
 <script>
-/* ========= CONFIG ========= */
-const API = "https://script.google.com/macros/s/AKfycbxPG1dKYvUKbcsOb-XJZya3nZD0wmbePPPQNRwx8JWXKbEiO_IQtQHWJq85E-AQNJXq/exec";
+const API="https://script.google.com/macros/s/AKfycbwYLS9gUaqlfg-T-6lo9lMocW2S1_GJc05hU6N_sMWqB4o3TWclh50oZfUpJeyrwfRV_w/exec";
 
-/* ========= MODELOS ========= */
 const rings=[
  {name:"Éclat",img:"1.jpg",tags:["Clásico","Pulido"]},
  {name:"Aurora",img:"2.jpg",tags:["Media caña","Bisel"]},
@@ -195,14 +193,13 @@ const rings=[
  {name:"Imperial",img:"8.jpg",tags:["Pulido","Bordes dobles"]}
 ];
 
-/* ========= CARGAR CATÁLOGO ========= */
 fetch(API)
 .then(r=>r.json())
 .then(stock=>{
  const grid=document.getElementById("catalog");
 
  rings.forEach(r=>{
-  const ok = stock[r.name] > 0;
+  const ok = stock[r.name]==1;
 
   grid.innerHTML+=`
   <div class="card">
@@ -220,14 +217,13 @@ fetch(API)
  });
 });
 
-/* ========= MODAL ========= */
 function openModal(name,hasStock){
  modal.classList.add("show");
  const ring=rings.find(r=>r.name===name);
 
  mImg.src=ring.img;
  mName.textContent=name;
- mStatus.textContent="Fabricamos todas las tallas. Incluso si hay stock, puedes pedir a medida.";
+ mStatus.textContent="Fabricamos todas las tallas. Puedes pedir stock o mandar a fabricar.";
 
  mBtns.innerHTML=`
   ${hasStock ? `<button class="btn" onclick="pedido('${name}','STOCK')">PEDIR STOCK</button><br><br>` : ``}
@@ -235,26 +231,23 @@ function openModal(name,hasStock){
  `;
 }
 
-/* ========= PEDIDO (SIN CORS) ========= */
 function pedido(modelo,tipo){
+ fetch(API,{
+  method:"POST",
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({
+    modelo,
+    tipo,
+    estado: tipo==="STOCK" ? "SEPARADO" : "A FABRICAR",
+    origen:"CATÁLOGO LIVE"
+  })
+ });
 
-  const estado = tipo==="STOCK" ? "SEPARADO" : "A FABRICAR";
+ const msg = tipo==="STOCK"
+  ? `Hola, quiero separar el anillo ${modelo} que vi en el live.`
+  : `Hola, quiero el anillo ${modelo} a fabricar en mi talla.`;
 
-  // 1️⃣ Registrar pedido en Google Sheets
-  const url =
-    `${API}?modelo=${encodeURIComponent(modelo)}` +
-    `&tipo=${encodeURIComponent(tipo)}` +
-    `&estado=${encodeURIComponent(estado)}` +
-    `&origen=CATALOGO_WEB`;
-
-  window.open(url,"_blank");
-
-  // 2️⃣ WhatsApp
-  const msg = tipo==="STOCK"
-    ? `Hola, quiero separar el anillo ${modelo}. Mi talla es ___`
-    : `Hola, quiero el anillo ${modelo} a fabricar. Mi talla es ___`;
-
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,"_blank");
+ window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
 }
 </script>
 
